@@ -1,0 +1,295 @@
+\newcommand{\CLASSINPUTtoptextmargin}{2cm}
+\documentclass[10pt, conference, a4paper, compsocconf]{IEEEtran}
+\usepackage{amssymb}
+\usepackage{graphicx}
+%\usepackage{graphics}
+\usepackage{algorithm}
+%\usepackage{algorithmic}
+%\usepackage{subfigure}
+\usepackage{subcaption}
+%\usepackage{caption}
+\usepackage{xcolor}
+\newtheorem{definition}{Definition}
+\usepackage{algpseudocode}
+\usepackage{epsfig}
+\usepackage{subfloat}
+\usepackage{bibentry}
+\usepackage{amsmath}
+\usepackage{rotating}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{booktabs}
+\usepackage{multirow}
+%\usepackage[table]{xcolor}
+%\usepackage{siunitx}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{stfloats}
+\usepackage{blindtext}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{url}
+\usepackage{geometry}
+\geometry{top=0.7in, right=15mm, left=15mm, bottom=2.77cm}
+\makeatletter
+\g@addto@macro{\UrlBreaks}{\UrlOrds}
+\makeatother
+%\ifCLASSINFOpdf %\usepackage[pdftex]{graphicx}
+\makeatletter %\usepackage[pdftex]{graphicx}
+\hyphenation{op-tical net-works semi-conduc-tor}
+\begin{document}
+%\title{Artificial Neural Network and Game for Secure and Optimal Charging Station Selection for EVs}  
+\title{Convolution Neural Network-based Vehicle Identification Approach for Hit-and-Run Cases}
+\author{\IEEEauthorblockN{Krisha Darji\IEEEauthorrefmark{1}, Fenil Ramoliya\IEEEauthorrefmark{2}, Chinmay Trivedi\IEEEauthorrefmark{3}, Rajesh Gupta\IEEEauthorrefmark{4}, \textit{Member, IEEE}, Riya Kakkar\IEEEauthorrefmark{5}, \textit{Student}\\ \textit{Member, IEEE}, Sudeep Tanwar\IEEEauthorrefmark{6}, \textit{Senior Member, IEEE}, Deepak Garg\IEEEauthorrefmark{7}}
+\IEEEauthorblockA{\IEEEauthorrefmark{1}\IEEEauthorrefmark{2}\IEEEauthorrefmark{3}\IEEEauthorrefmark{4}\IEEEauthorrefmark{5}\IEEEauthorrefmark{6}Department of Computer Science and Engineering, Institute of Technology, Nirma University, Ahmedabad, India}
+\IEEEauthorblockA{\IEEEauthorrefmark{7}School of Computer Science and Artificial Intelligence, SR University, Warangal, Telangana-506371, India}
+
+\IEEEauthorblockA{Emails: \IEEEauthorrefmark{1}21bce043@nirmauni.ac.in,
+\IEEEauthorrefmark{2}21bce244@nirmauni.ac.in,
+\IEEEauthorrefmark{3}21bce041@nirmauni.ac.in,
+\IEEEauthorrefmark{4}rajesh.gupta@nirmauni.ac.in,\\
+\IEEEauthorrefmark{5}21ftphde56@nirmauni.ac.in,
+\IEEEauthorrefmark{6}sudeep.tanwar@nirmauni.ac.in,
+\IEEEauthorrefmark{6}deepak.garg@sru.edu.in
+}
+}
+\maketitle
+
+\begin{abstract}
+In the swiftly evolving landscape of transportation, characterized by unprecedented technological advancements, the escalating frequency of Hit-and-Run incidents poses a critical challenge. In response, we presents a pioneering approach leveraging Transfer Learning-enhanced Convolutional Neural Networks (TL-enhanced CNN) to address this pressing issue. By harnessing the power of continuous traffic monitoring, camera sensors, and location data, this model adeptly detects and classifies vehicles involved in Hit-and-Run incidents. This model is trained on diverse vehicular images, the TL-enhanced CNN methodology not only identifies vehicle types, but also extracts essential information within the dynamic monitoring environment. The core of proposed approach lies in an Ensembled CNN model, combining the strengths of Visual Geometry Group (VGG-16), Residual Network (ResNet-50) and InceptionV3, enhancing both accuracy and robustness. Rigorous evaluation, encompassing training parameter analysis, loss curves, and comprehensive performance metrics, establishes the robustness and efficacy of this proposed approach, thus offering a potent solution to the mounting challenge of Hit-and-Run detection and response in modern transportation systems.
+\end{abstract}
+\begin{IEEEkeywords}
+\textit{Transfer Learning, Hit-and-Run Detection, CNN, Vehicular Surveillance, VGG-16, ResNet-50, InceptionV3}
+\end{IEEEkeywords}
+\IEEEpeerreviewmaketitle
+%\vspace{-.05in}
+\section{Introduction}
+The transportation sector has undergone a profound and dynamic transformation in recent decades, yielding substantial advancements that have significantly enhanced various dimensions of human life. The pervasive assimilation of contemporary transportation systems into everyday routines underscores the remarkable adaptability of individuals to this persistent revolution. This paradigmatic shift has played an indispensable role in redefining the concept of mobility, spanning a diverse spectrum of modalities that offer tangible benefits such as enhanced accessibility, optimized efficiency, improved safety, streamlined urban planning, and augmented connectivity. This transformation encompasses multifaceted innovations across technological and operational domains. The seamless integration of advanced technologies, from propulsion systems to traffic management algorithms, has ushered in a new era of transportation dynamics. Concurrently, novel operational paradigms like ridesharing recalibrate the use of existing infrastructure, optimizing their potential and reducing congestion-related challenges. This confluence of technological and operational ingenuity forms the cornerstone of a modern mobility tapestry meticulously woven to address the imperatives of contemporary societal mobility.\\
+\indent As the utilization of vehicular transportation continues to escalate, there has been a correlated increase in the frequency of accidents, thus underscoring a pressing concern. This escalation can be attributed to several key factors rooted in the modern transportation landscape. As the utilization of vehicular transportation continues to escalate, there has been a correlated increase in the frequency of accidents, thus underscoring a pressing concern. This escalation can be attributed to several key factors rooted in the modern transportation landscape. Firstly, the surge in vehicular ownership and usage has intensified traffic volumes, creating congestion-prone conditions that elevate the likelihood of accidents. Secondly, the proliferation of distracted driving, largely attributed to the use of electronic devices, has amplified driver inattention and diminished reaction times, thereby augmenting accident susceptibility. Thirdly, the complexity of modern roadways, often characterized by intricate intersections and high-speed thoroughfares, has magnified the potential for collisions.\\
+\indent This burgeoning incidence of accidents yields a range of significant ramifications. Foremost among these is the escalating toll on human life and health, marked by a surge in injuries and fatalities. Additionally, these accidents engender substantial economic costs, manifested through medical expenses, property damage, and productivity losses. Furthermore, vehicular accidents contribute to the degradation of the environment through increased emissions resulting from congestion and inefficient traffic flow. Among the particular manifestations of vehicular accidents, the issue of Hit-and-Run incidents looms prominently. Hit-and-Run accidents not only exacerbate the challenge of identifying responsible parties but also hinder effective accident response and medical aid, posing critical hurdles to swift and efficient intervention. Such incidents can perpetuate a cycle of legal complexities, societal frustration, and hindered accident prevention strategies. The alarming escalation in vehicular accidents, as evident from the World Health Organization's (WHO) data \cite{WHO}, underscores a critical global concern. In 2023, the toll of road traffic crashes on human life remained distressingly high, with an estimated 1.35 million lives lost worldwide—an unsettling 2\% increase from the preceding year, 2022. According to WHO, there were over 1 million Hit-and-Run crashes worldwide in 2023. This is an increase of about 4\% from the 960,000 crashes reported in 2022. It has also been estimated that there were over 50,000 deaths and 2 million injuries in Hit-and-Run crashes worldwide in 2023.\\
+\indent Addressing Hit-and-Run incidents and establishing accountability for the vehicle and its owner is of utmost significance. These occurrences erode road safety and impede the efficacy of accident response mechanisms. Numerous researchers have proposed a spectrum of methodologies to combat this serious concern. For instance, Zhang \emph{et al.} \cite{math11071743} introduced a trajectory tracking and influence map-based approach for traffic accident detection. Waltereit \emph{et al.} \cite{8730655} devised a method for exonerating innocent suspects through route reconstruction in Hit-and-Run cases. Shikhar \emph{et al.} \cite{7779365} compiled a report on data analytics applied to accident data, contributing to smarter urban ecosystems and enhanced safety. Meanwhile, Sheng \emph{et al.} \cite{9936747} explored the development of a virtual vehicle identification system for Hit-and-Run tracking. However, this approach exhibited limitations in terms of comprehensiveness and precision. Subsequently, certain researchers proposed machine learning (ML)-based solutions to address these shortcomings. Jayshree \emph{et al.} \cite{10053471} introduced a Convolutional Neural Network (CNN)-powered system for vehicle crash detection. He \emph{et al.} \cite{7780459} devised a deep residual learning scheme for image recognition, while Kumar \emph{et al.} \cite{9526546} put forth a road accident detection framework utilizing ML techniques.\\
+\indent It is crucial to acknowledge that both ML-based and non-ML-based solutions while showing promise, may still present inherent limitations in terms of their reliability and practicality. To address these challenges, we propose a pioneering approach utilizing Transfer Learning (TL)-enhanced Convolutional Neural Network (CNN) architecture for vehicular detection in Hit-and-Run incidents. The models are Visual Geometry Group (VGG-16), Residual Network (ResNet-50), and InceptionV3. This approach offers distinct advantages by leveraging pre-existing knowledge from related domains to enhance the accuracy and robustness of vehicular identification. By fusing this advanced model with real-time accident severity assessment, the proposed system is a potent tool for promptly providing critical information to law enforcement agencies or police authorities, enabling them to respond effectively to Hit-and-Run incidents based on the accident's severity. Through this approach, we endeavour to contribute to a more efficient and dependable Hit-and-Run detection and response mechanism, ultimately fostering safer road environments and fortifying the efforts of law enforcement authorities.
+\subsection{Research Contributions}
+This paper presents key contributions for the Hit-and-Run vehicle detection and alert system using the TL-enhanced CNN approach.
+\begin{itemize}
+    \item This comprehensive approach seamlessly integrates continuous traffic monitoring, camera sensors, and location data to achieve accurate and real-time Hit-and-Run detection while also providing precise severity assessment.
+    \item We introduce a novel TL-enhanced CNN technique that utilizes input images of Hit-and-Run incidents to extract crucial vehicle information, including type, location coordinates, and time for further legal actions against involved parties. 
+    \item The proposed TL-enhanced CNN model is rigorously evaluated through an ensemble approach, combining VGG-16, ResNet-50, and InceptionV3 models. Evaluation includes in-depth analysis of training parameters, accuracy, loss curves, and performance metrics such as F1 score, recall, and precision, ensuring robust and reliable Hit-and-Run detection.
+\end{itemize}
+\subsection{Organization of the Paper}
+The rest of the paper is organized as follows. Section II discusses the system model and problem formulation of the proposed system and Section III highlights the elaborated proposed system. Next, Section IV presents the performance evaluation of the proposed system. Finally, the paper is concluded with future work in Section V.
+
+\section{System model and problem formulation}
+This section delves into the suggested approach's system model and problem formulation.
+\subsection{System Model}
+Using the TL-enhanced CNN model, the proposed system model encapsulates the intricacies of vehicular Hit-and-Run detection and response. This approach is designed to operate within the dynamic context of modern road transportation systems. The system centres around a fleet of vehicles denoted as $\mathcal{V} = {v_{1}, v_{2}, \ldots, v_{n}}$, seamlessly integrated into a networked environment ($\mathcal{E}$) characterized by continuous and pervasive traffic monitoring. This integration is facilitated by deploying an array of sensors and modules across roadways, ensuring a constant stream of data related to vehicle dynamics and behaviors. Among these sensors are camera sensors ($\mathcal{C} = {c_{1}, c_{2}, \ldots, c_{k}}$), location sensors ($\mathcal{L} = {l_{1}, l_{2}, \ldots, l_{m}}$) and speed trackers ($\mathcal{R} = {r_{1},r_{2}, \ldots, r_{a}}$) collectively enabling real-time data acquisition and event detection mechanisms. The escalating rate of accidents within the evolving landscape of transportation systems, especially incidents of a Hit-and-Run nature, underscores the significance of an effective response paradigm. In the event of a Hit-and-Run occurrence, the system focuses on harnessing the rich information captured by camera sensor $c_{i}$ at the precise moment of impact, coupled with the corresponding location data from sensor $l_{j}$. These data streams serve as inputs to the proposed $\Lambda_{CNN}$ model, which is a testament to the system's sophistication. $\Lambda_{CNN}$ proficiently employs its accumulated knowledge to recognize and categorize vehicles, translating the input image ($I_{input}$) into actionable insights ($\theta$). This process culminates in extracting critical information such as the vehicle type ($\mathcal{T}$), expediting the identification of parties involved.
+
+\indent Furthermore, the system distinguishes varying accident severities ($\Phi$) classified into predefined categories: mild ($\Phi = 1$), serious ($\Phi = 2$), and highly critical ($\Phi = 3$). Severity classification hinges on evaluating determinants, including impact force ($\alpha$), vehicle damage ($\beta$), and potential injuries ($\gamma$). The precision of $\Lambda_{CNN}$'s classification contributes to the accurate stratification of incidents. Upon detection and classification, the system dispatches pertinent details, including the vehicle type ($\mathcal{T}$), image ($I_{input}$), location ($l_{j}$), and severity assessment ($\Phi$), to the assigned law enforcement agency. This streamlined information flow ensures optimal resource allocation based on incident severity and this operational efficiency also empowers swift actions by authorities. It facilitates medical response at the point of the accident.
+\subsection{Problem Formulation}
+In the context of modern road transportation systems, we address the challenge of vehicular Hit-and-Run detection and response using a TL-enhanced CNN model ($\Lambda_{CNN}$). Consider a vehicle $v_{x} \in \mathcal{V}$ in trasnporation environment $\mathcal{E}_{T}$. The data streams from camera sensors ($\mathcal{C}$), location sensors ($\mathcal{L}$) and speed trackers ($\mathcal{R}$) are fused to construct the sensor fusion matrix ($\mathbf{S}$), where each entry $s_{ij}$ quantifies the correlation between $c_{i}$, $l_{j}$ and $r_{b}$ as shown in Equation \ref{eq:fusion}.
+
+\begin{equation}\label{eq:fusion}
+    \mathbf{S} = \begin{bmatrix}
+        s_{11} & \cdots & s_{1m} \\
+        \vdots & \ddots & \vdots \\
+        s_{k1} & \cdots & s_{km}
+    \end{bmatrix}.
+\end{equation}
+
+\indent In the case of a Hit-and-Run incident, the probability of an accident occurring ($\varphi_{acc}$) is represented by a function in Equation \ref{eq:probability} which involves vehicle characteristics ($\mathcal{V}$), sensor data fusion ($\mathbf{S}$), and environmental factors ($\mathcal{E}$). This function combines vehicle dynamics and sensor correlations to provide a comprehensive view of accident probabilities within the intricate interplay of vehicular behavior, sensor interactions, and environmental conditions.
+
+\begin{equation}\label{eq:probability}
+    \varphi_{acc} = f(\mathcal{V}, \mathbf{S}, \mathcal{E}) + \frac{1}{{\prod_{x=1}^{n} v_{x} \cdot \sum_{i=1}^{k} \sum_{j=1}^{m} s_{ij}}}
+\end{equation}
+
+\indent The input image $I_{\text{input}}$ undergoes a transformative deep feature extraction operation ($\mathcal{D}$), generating higher-level features ($\mathbf{F}_{\text{input}}$). These features capture the essence of the image, presenting it in a more abstract form. This enriched feature set is then fortified through a multiplication process involving the maximal vehicle value from the scenario's vehicle set. This combination of Deep Feature Extraction, the highest vehicle value, and integration into the $\Lambda_{CNN}$ showcases how image processing and domain-specific knowledge work together. This strengthens the model's ability to accurately classify vehicles, amplifying the potency of this proposed approach.
+
+
+\begin{equation}\label{eq:input}
+    \mathbf{F}_{\text{input}} = \mathcal{D}(I_{\text{input}}) \cdot \max_{i=1}^{n}(v_i)
+\end{equation}
+
+The $\Lambda_{CNN}$ model's output ($\mathcal{T}$) comprises probabilities associated with various vehicle types and deep feature extraction operation for classification of involved vehicular type as shown in Equation \ref{eq:output}.
+
+\begin{equation}\label{eq:output}
+    \mathcal{T} = \Lambda_{CNN}(\mathbf{F}_{\text{input}})
+\end{equation}
+
+The severity index ($\phi$) involves a calculative function ($g$) to compute the severity of the Hit-and-Run incident as shown in Eq. \ref{eq:severity}.
+\begin{equation}\label{eq:severity}
+    \phi = \left(g(\alpha + \sqrt{\beta}, \gamma^{2}) \times (\varphi_{acc})\right)
+\end{equation}
+\section{The proposed approach}
+\begin{figure*}[h!]
+	\centering
+	\includegraphics[width=.9\linewidth]{Hit and Run Fenil Paper/proposed.png}
+	\caption{The proposed approach.}
+	\label{fig:PA}
+\end{figure*}
+\figurename\ \ref{fig:PA} depicts the proposed approach, which 
+consists of three layers, i.e., vehicular monitoring layer, AI layer, and law enforcement authority layer. It is designed to identify vehicles involved in Hit-and-Run cases and inform authorities, i.e., nearby police stations and medical centres.
+\subsection{Vehicular Monitoring Layer}
+This layer involves continuous traffic surveillance using camera sensors ($\mathcal{C}$), location sensors ($\mathcal{L}$), and speed trackers ($\mathcal{R}$) to monitor real-time vehicular activities. These sensors yield essential data and provide real-time assessment, forming input data $\mathcal{D}_{\text{input}}$ as shown in Equation \ref{eq:first}. The integration of these data streams creates a foundation, channelling input information for AI layer processing.
+\begin{equation}\label{eq:first}
+\mathcal{D}_{\text{input}} = (I_{\text{input}}, c_{i}, l_{j}, r_{b})
+\end{equation}
+\indent Equation \ref{eq:new_fusion_matrix} represents sensor fusion matrix $\mathbf{S}$, where $c_{ijb}$, $l_{ijb}$ and, $r_{ijb}$ represents the activation value of camera sensor $c_{k}$, geographical coordinate of location sensor $l_{m}$ and speed tracker sensed speed values $r_{a}$ respectively. This equation quantifies the spatial alignment and activation of sensors, capturing the fusion process that enables a comprehensive understanding of vehicular dynamics within the monitored environment.
+\begin{equation}\label{eq:new_fusion_matrix}
+\mathbf{S} = \frac{1}{{k \cdot m \cdot a}} \sum_{i=1}^{k} \sum_{j=1}^{m} \sum_{b=1}^{a} c_{ija} \cdot l_{ija} \cdot r_{ija},
+\end{equation}
+\subsection{AI Layer}
+
+% The AI layer, a paramount constituent of proposed approach, assumes a pivotal role. Within this phase, the Ensembled model $\Lambda_{CNN}$ takes center stage. Operating on inputs forwarded by the preceding layer, it undertakes the intricate task of classifying vehicle types and extracting pertinent vehicle-related information for subsequent stages. $\Lambda_{CNN}$ serves as a unifying force, seamlessly integrating diverse pre-trained models to enhance its predictive capabilities. Informed by an extensive synthetic dataset \cite{one} \cite{two} \cite{three} \cite{four} \cite{five}, encompassing an array of vehicle images of 4 different classes (Car, Bus, Truck, Motorcycle) the model encapsulates a rich repository of vehicle classification knowledge. All the input images are of 150 $\times$ 150 dimensions. The architectural configuration is depicted in \figurename\ \ref{fig:2}, while the harmonious amalgamation of capabilities drawn from VGG-16, ResNet-50, and InceptionV3 models results in a synergistic ensemble, markedly elevating the accuracy of vehicular classification.
+
+At the core of our proposed approach lies the pivotal AI layer. This layer includes the ensemble model $\lambda_{CNN}$, adapting the classification and extraction of essential vehicle information from the input data provided by the preceding layer. $\Lambda_{CNN}$ acts as a cohesive entity, seamlessly integrating various pre-trained models to bolster its predictive prowess. rained on an extensive synthetic dataset \cite{one} \cite{two} \cite{three} \cite{four} \cite{five} encompassing diverse vehicle images spanning four distinct classes (Car, Bus, Truck, Motorcycle), the model embodies a comprehensive repository of vehicle classification knowledge. All input images adhere to a standardized 150 $\times$ 150 dimension. The model's architectural configuration is visually outlined in \figurename \ \ref{fig:2}, and its performance gains are derived from the collaborative fusion of capabilities harnessed from VGG-16, ResNet-50, and InceptionV3 models, collectively forming a synergistic ensemble that significantly enhances vehicular classification accuracy. This strategic ensemble approach has proven to be more reliable and effective than conventional standalone CNN models.
+
+
+\begin{equation}\label{eq:VGG-16}
+    \begin{aligned}
+        \Omega = f ((\omega+\rho),\upsilon,(\tau+\rho),\sigma)
+    \end{aligned}
+\end{equation}
+\indent The architecture of the VGG-16 ($\Omega$) Network is shown in Equation \ref{eq:VGG-16}, which stands out for having 8 convolutional layers ($\omega$) that systematically extract visual patterns via ReLU ($\rho$) activation, incorporates a design approach observed in numerous combinations. Utilizing max pooling ($\upsilon$), critical information is distilled while preserving efficiency. A softmax activation ($\sigma$) for predictive outputs follows three further fully linked layers ($\tau$) with ReLU activation that further abstracts and aggregates information. This meticulous methodology, used in many scenarios, highlights the value of hierarchical feature extraction and careful layer orchestration while illuminating the balance between complexity and efficiency in deep learning models.
+\begin{equation}\label{eq:inceptionV3}
+    \begin{aligned}
+        \Gamma = f (\omega,\mu,\nu,\tau,\sigma,\theta,\upsilon)
+    \end{aligned}
+\end{equation}
+\indent Convolutional layers ($\omega$) are used by InceptionV3's ($\Gamma$) powerful convolutional neural network as provided in Equation \ref{eq:inceptionV3} to identify local patterns in images. Max pooling ($\upsilon$) is used to aggregate spatial information, and softmax ($\sigma$) activation, which makes exact classification possible, is the culmination. Convolution($\omega$), average pooling($\mu$), dropout($\theta$), concatenation($\nu$), fully linked layers($\tau$), max pooling($\upsilon$), and softmax($\sigma$) are used to create a powerful architecture that highlights InceptionV3's capabilities for thorough feature extraction and reliable classification.
+
+\begin{equation}\label{eq:ResNet-50}
+    \begin{aligned}
+        \Pi = f((\iota+\rho+\omega),\xi_{1},\xi_{2},(\nu+\omega),\upsilon)
+    \end{aligned}
+\end{equation}
+
+\indent A well-known deep convolutional neural network called ResNet-50 ($\Pi$) is well known for minimizing the vanishing gradient issue, as shown in Eq. \ref{eq:ResNet-50}.  It begins with seven convolutional layers ($\omega$) and then moves on to batch normalization and ReLU activation ($\rho$). Stride 1 of ResNet-50 ($\xi_{1}$) adds ResNet blocks, enabling complex feature extraction inside these blocks. Furthermore, ResNet blocks with stride 2 ($\xi_{2}$) allow for down-sampling, which lowers spatial resolution while retaining essential data. The unique aspect of this architecture is how convolutional stride + batch normalization ($\iota$) + ReLU, ResNet blocks with different strides, max pooling, and Concat + Conv layers are seamlessly combined.
+\begin{equation}\label{eq:ensemble}
+    \begin{aligned}
+        \mathcal{T} = \Xi (\int (\Omega(\mathcal{D}_{\text{input}}),\Gamma(\mathcal{D}_{\text{input}}),\Pi(\mathcal{D}_{\text{input}})))
+    \end{aligned}
+\end{equation}
+\indent To improve overall prediction performance, ensembling ($\Xi$) integrates the advantages of VGG-16, InceptionV3, and ResNet-50, three different deep neural network architectures.  This method results in a more dependable and precise solution by improving model stability and lowering the risk of overfitting. When coupled, the strength of VGG-16, InceptionV3, and ResNet-50 shows the synergy of multiple architectural choices, emphasizing the value of integrating to get greater performance across a range of workloads as presented in Eq. \ref{eq:ensemble}.
+
+\subsection{Law Enforcement Authority Layer}
+This layer serves as the alert and action procedural module, a robust mechanism is strategically devised to oversee the outputs generated by the AI layer efficiently. This intricate setup ensures prompt and appropriate responses to Hit-and-Run incidents, further enhancing the efficacy of our approach. The important role of this layer lies in orchestrating seamless coordination between law enforcement agencies and medical facilities, optimized by the categorization of accident severity. The AI layer, equipped $\Lambda_{CNN}$, generates a multifaceted output encompassing vital information about the vehicular type, detailed vehicle specifications, and real-time incident particulars. This information is meticulously relayed to this layer, instigating a cascade of judicious responses.\\
+\indent One important facet of this layer is the quantification of accident severity ($\Phi$) through a meticulously defined categorization methodology. This approach, characterized by levels of severity ($\phi$), empowers efficient resource allocation and targeted intervention strategies. Specifically, the classification process is mathematically encapsulated as follows in Eq. \ref{eq:last}.
+\begin{equation}\label{eq:last}
+\Phi = \begin{cases}
+1, & \text{if the incident is mild} \ (\phi = 1) \\
+2, & \text{if the incident is serious} \ (\phi = 2) \\
+3, & \text{if the incident is highly critical} \ (\phi = 3)
+\end{cases}
+\end{equation}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{model.png}
+	\caption{CNN model of the proposed approach.}
+	\label{fig:2}
+\end{figure}
+This mathematical formulation reflects the intricate process of assigning a severity index to each incident, streamlining subsequent response mechanisms. Notably, this severity assessment guides information dispatch to law enforcement agencies and nearby medical facilities, facilitating a harmonized and immediate reaction. The orchestrated collaboration between authorities and medical personnel underscores the efficacy of our proposed approach in mitigating the impact of Hit-and-Run incidents on both human lives and the broader transportation ecosystem. Algorithm \ref{alg:ts} showcase the entire hit-and-Run vehicular detection mechanism process based on various sensor input. 
+\begin{figure*}[h!]
+	\centering
+ \begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{accuracy_comparison (1).png}
+		\caption{Accuracy curve for different models.}
+		\label{fig:3(a)}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{loss_comparison (1).png}    
+		\caption{Loss curve for different models.}
+		\label{fig:3(b)}
+	\end{subfigure}
+	%\hfill
+	\caption{(a) Accuracy curve for CNN, VGG-16, ResNet-50 and InceptionV3 models  during the training, (b) Loss curve for CNN, VGG-16, ResNet-50 and InceptionV3 models  during the training}
+	\label{fig:3}
+\end{figure*}
+ 
+\begin{algorithm}[h!]
+	\caption{Ensemble Algorithmic Flow for Prediction.}
+	\label{alg:ts}
+	\normalsize
+	\textbf{Input}: $\mathbf{S}, \varphi_{acc}, I_{\text{input}}$\\
+	\textbf{Output}: $\mathcal{T}, \Phi$
+         \textbf{Initialization}: $e$=15, $b$=32, $\alpha$=0.001
+	\begin{algorithmic}[1]
+		\Procedure{Ensemble\_Pred}{$\mathcal{V}, \mathbf{S}$}
+		\If{$\mathcal{V} \in (\mathcal{E}_{T})$}
+
+        \State  $\varphi_{acc} = f(\mathcal{V}, \mathbf{S}, \mathcal{E}) + \frac{1}{{\prod_{x=1}^{n} v_{x} \cdot \sum_{i=1}^{k} \sum_{j=1}^{m} s_{ij}}}$
+        
+        \State $\mathcal{D}_{\text{input}} = (I_{\text{input}}, c_{i}, l_{j}, r_{b})$
+        \State \textit{Apply VGG-16, InceptionV3, and
+ResNet-50 models and Ensemble them}
+        \State $\Omega = f ((\omega+\rho),\upsilon,(\tau+\rho),\sigma)$ 
+        \State $\Gamma = f (\omega,\mu,\nu,\tau,\sigma,\theta,\upsilon)$
+        \State $\Pi = f((\iota+\rho+\omega),\xi_{1},\xi_{2},(\nu+\omega),\upsilon)$
+        \State $\mathcal{T} = \Xi (\int (\Omega(\mathcal{D}_{\text{input}}),\Gamma(\mathcal{D}_{\text{input}}),\Pi(\mathcal{D}_{\text{input}})))$
+
+        \State   $\phi = \left(g(\alpha + \sqrt{\beta}, \gamma^{2}) \times (\varphi_{acc})\right)$
+        
+        \State $return  \mathcal{T}, \phi$ 
+        \EndIf
+	\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+\section{Performance Evaluation}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\linewidth]{confusion_matrix.png}
+	\caption{Confusion matrix for different models.}
+	\label{fig:4}
+\end{figure}
+This section focuses on performance assessment across diverse image classification models. The training involved three distinct pre-trained models—VGG-16, ResNet-50, and InceptionV3—alongside a custom CNN model, as detailed in the system model section. Where benchmark custom CNN failed to provide a better performance, the weight utilization gained from the Ensambled model provided better performance and reliability. A uniform experimental methodology was rigorously maintained to ensure study credibility. Consistency in training and testing datasets was upheld, with all models trained for 15 epochs, employing dynamic learning rates (0.001 to 0.00002) and batch sizes of 32. Using a single computer system minimized hardware variations, reinforcing impartiality and facilitating precise comparative analysis.
+
+\indent Model performance analysis is visualized through accuracy trends across different pre-trained models, as shown in \figurename\ \ref{fig:3(a)}. Post-training, ResNet-50 excelled with a peak accuracy of 0.9970, followed by InceptionV3 at 0.9615. VGG-16 and the CNN model achieved commendable levels, approximately 0.9376 and 0.9285, respectively. Moving to the testing dataset, InceptionV3 demonstrated 0.9350 accuracy, ResNet-50 at 0.9222, VGG-16 at 0.8888, and CNN at 0.7083. The fusion of ResNet-50, InceptionV3, and VGG-16 in our ensemble CNN network resulted in an accuracy of 0.9444.
+
+\indent The distinct trajectories of loss curves among the models utilized for training data are vividly shown in \figurename\ \ref{fig:3(b)}. Notably, ResNet-50 exhibited remarkable loss reduction, reaching an ultimate value of only 0.0162 in the latter stages of training. Similarly, InceptionV3 and VGG-16 demonstrated convergences at loss values of 0.1132 and 0.1771, respectively. Lastly, the CNN model attained a loss of 0.2164, highlighting its less effectiveness in capturing intricate patterns within the data.
+
+\indent \figurename\ \ref{fig:4}, presents the comparison of confusion matrices. Confusion matrix is a fundamental tool in machine learning evaluation, displaying the actual versus predicted class labels. These matrices depict the evaluation of the multi-label classification strategy across all four models using the testing dataset. The target labels consist of bus, car, motorcycle, and truck.
+
+\indent Precision, recall, and the F1 score are essential benchmarks for evaluating our models' classification capabilities. Precision measures prediction accuracy, recall assesses relevant instance capture, and the F1 score provides a comprehensive classification assessment. Table \ref{tab:model_comparison} systematically presents these metrics across labels and model architectures. This assessment spans a customized CNN model, VGG-16, ResNet-50, InceptionV3, and their ensemble. For instance, F1 scores for the "Car" label are CNN (0.74), VGG16 (0.90), ResNet50 (0.92), InceptionV3 (0.93), and the Ensemble (0.94). This tabulation enhances our understanding of model efficacy, accentuating their utility in image classification's intricate domain.
+
+
+\begin{table*}[ht]
+\centering
+\caption{Model Performance Comparison}
+\label{tab:model_comparison}
+\begin{tabularx}{\textwidth}{@{}X*{13}{c}@{}}
+\toprule
+\multirow{2}{*}{\textbf{Metrics}} & \multicolumn{4}{c}{\textbf{CNN}} & \multicolumn{4}{c}{\textbf{VGG-16}} & \multicolumn{4}{c}{\textbf{ResNet-50}} \\
+\cmidrule(lr){2-5} \cmidrule(lr){6-9} \cmidrule(lr){10-13}
+ & Bus & Car & Motorcycle & Truck & Bus & Car & Motorcycle & Truck & Bus & Car & Motorcycle & Truck \\
+\midrule
+\rowcolor{lightgray!25}
+Precision & 0.75 & 0.70 & 0.80 & 0.53 & 0.84 & 0.83 & 0.96 & 0.96 & 0.98 & 0.92 & 0.97 & 0.87 \\
+Recall & 0.76 & 0.80 & 0.89 & 0.39 & 0.94 & 0.98 & 1.00 & 0.63 & 0.87 & 0.93 & 0.96 & 0.88 \\
+\rowcolor{lightgray!25}
+F1-score & 0.75 & 0.74 & 0.84 & 0.45 & 0.89 & 0.90 & 0.98 & 0.76 & 0.92 & 0.92 & 0.97 & 0.88 \\
+\midrule
+\multirow{2}{*}{\textbf{Metrics}} & \multicolumn{4}{c}{\textbf{InceptionV3}} & \multicolumn{4}{c}{\textbf{Ensemble}} \\
+\cmidrule(lr){2-5} \cmidrule(lr){6-9}
+ & Bus & Car & Motorcycle & Truck & Bus & Car & Motorcycle & Truck \\
+\midrule
+\rowcolor{lightgray!25}
+Precision & 0.96 & 0.92 & 0.99 & 0.87 & 0.93 & 0.91 & 0.99 & 0.95 \\
+Recall & 0.94 & 0.94 & 0.98 & 0.88 & 0.96 & 0.97 & 1.00 & 0.84 \\
+\rowcolor{lightgray!25}
+F1-score & 0.95 & 0.93 & 0.99 & 0.88 & 0.94 & 0.94 & 0.99 & 0.89 \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\section{Conclusion}
+The proposed approach excels in real-time image classification for dynamic road transportation scenarios, serving as a robust deterrent against Hit-and-Run incidents and enhancing overall road safety. The integration of our ensemble model with real-time sensor data significantly enhances accuracy. Leveraging VGG-16, InceptionV3, and ResNet-50 architectures, our ensemble CNN excels in complex multi-class image classification tasks, showcasing high precision. The approach's predictive potential, particularly in Hit-and-Run incident mitigation, solidifies its role as an effective response mechanism. The fusion of predictive capabilities and strong classification accuracy empowers swift and well-informed decision-making. Our comprehensive performance evaluation includes key metrics such as accuracy, loss curve analysis, F1 scores, recall, and precision. Expanding our approach to encompass a wider range of vehicle types and domains, such as pedestrian safety, offers promising cross-disciplinary contributions to intelligent transportation systems.
+
+\bibliographystyle{ieeetr}
+%\end{thebibliography}
+\bibliography{ref}
+\end{document}
+
+
